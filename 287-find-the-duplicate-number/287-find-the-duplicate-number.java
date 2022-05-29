@@ -5,9 +5,7 @@ class Solution {
        for(int i=0; i<n+1; i++){
             x[nums[i]]++;
        }
-       for(int i=0; i<n+1; i++) {
-           System.out.print(x[i] + " ");
-       }
+       
        for(int i=0; i<n+1; i++) {
            if(x[i]>1){
                return i;
