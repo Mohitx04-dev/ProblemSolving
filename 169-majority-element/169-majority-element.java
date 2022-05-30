@@ -6,7 +6,6 @@ class Solution {
              if(c==0) {
                 cur = x;
             }
-            System.out.println(x + " " + c);
             if(cur==x) {
                 c++;
             }
