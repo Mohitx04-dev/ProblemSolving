@@ -19,7 +19,6 @@ class Solution {
             if(c>max){
                 max=c;
             }
-            System.out.println(nums[i] + " " + c + " " + max);
         }
         return max;
     }
