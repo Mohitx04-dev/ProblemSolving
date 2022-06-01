@@ -14,7 +14,6 @@ class Solution {
             if(cur.length()>max.length()){
                 max=cur;
             }
-            System.out.println(max + " " + cur);
         }
         return max.length();
     }
