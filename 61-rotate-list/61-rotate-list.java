@@ -37,7 +37,6 @@ class Solution {
         if(k>=c){
          k = k%c;
         }
-        System.out.println(c + " " + k);
         int t = 0;
             while(t<(c-k-1)) {
             itr = itr.next;
