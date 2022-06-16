@@ -3,13 +3,11 @@ class Solution {
         if(n==1 || k==1) {
             return 0;
         }
-        if(kthGrammar(n-1,(k+1)/2)==0){
-            if (k%2==0) return 1;
-            else return 0;
+        if(k<=Math.pow(2,n-2)){
+            return kthGrammar(n-1,k);
         }
         else {
-            if (k%2==0) return 0;
-            else return 1;
+            return 1^kthGrammar(n-1,k-(int)Math.pow(2,n-2));
         }
         
     }
