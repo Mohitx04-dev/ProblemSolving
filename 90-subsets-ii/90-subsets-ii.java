@@ -3,7 +3,6 @@ class Solution {
     HashMap<List<Integer>, Integer> map;
     void sub(List<Integer> op, List<Integer> ip){
         if(ip.size()==0) {
-            Collections.sort(op);
             if(map.get(op)==null) {
                 ans.add(op); 
                 map.put(op,1);
@@ -19,6 +18,7 @@ class Solution {
         sub(op2,ip1);
     }
     public List<List<Integer>> subsetsWithDup(int[] nums) {
+        Arrays.sort(nums);
         ans = new ArrayList();
         map = new HashMap();
         List<Integer> arr = new ArrayList();
