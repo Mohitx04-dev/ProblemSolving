@@ -7,7 +7,6 @@ class Solution {
             int val = q.peek();
             q.remove();
             for(int x : graph[val]) {
-                System.out.println(x + " " + val + Arrays.toString(color));
                 if(color[x]==-1) {
                     color[x] = (color[val]+1)%2;
                     q.add(x);
