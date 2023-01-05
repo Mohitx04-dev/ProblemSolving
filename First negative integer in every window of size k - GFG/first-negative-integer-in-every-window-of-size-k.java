@@ -48,22 +48,19 @@ class Compute {
     public long[] printFirstNegativeInteger(long A[], int N, int K)
     {
         int i=0; int j=0;
+        Queue<Long> queue = new LinkedList<Long>();
         long[] ans = new long[N-K+1];
         int count=0;
         while(j<A.length){
+            if(A[j]<0) queue.add(A[j]);
             if(j-i+1 < K ) j++;
             else if(j-i+1 == K) {
-                boolean x = false;
-               loop: for(int m = i; m<=j; m++) {
-                    if(A[m]<0){
-                        ans[count] = A[m];
-                        count++;
-                        x=true;
-                        break loop;
-                    } 
-                }
-                i++; j++;
-                if(!x) ans[count++] = 0;
+              if(queue.isEmpty()) ans[count++] = 0;
+              else { 
+              ans[count++] = queue.peek();
+              if(A[i] == queue.peek()) queue.poll();
+              }
+              i++; j++;
             }
         }
         return ans;
