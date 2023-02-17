@@ -59,11 +59,23 @@ class Solution {
         }
         return false;
     }
+    boolean detectD(boolean[] vis, int V, ArrayList<ArrayList<Integer>> adj, int node, int parent ) {
+        vis[node] = true;
+        for(int x : adj.get(node)) {
+            if(!vis[x]) {
+                if(detectD(vis,V,adj,x,node)==true) return true;
+            }
+            else if(x!=parent) {
+                 return true;
+            }
+        }
+        return false;
+    }
     public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
         // Code here
        boolean[] vis = new boolean[V];
        for(int i=0;i<V; i++) {
-           if(!vis[i]) if(detect(vis,V, adj,i)) return true;
+           if(!vis[i]) if(detectD(vis,V, adj,i,-1)) return true;
        }
        return false;
     }
