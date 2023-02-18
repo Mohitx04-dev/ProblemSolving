@@ -39,16 +39,14 @@ class Solution
 {
     static ArrayList<ArrayList<Integer>>ad;
     static int[] color;
-    static boolean[] vis;
     static boolean bfs(int node) {
         Queue<int[]> q = new LinkedList<int[]>();
         q.add(new int[]{node,-1});
         color[node] = 0;
         while(!q.isEmpty()) {
             int[] t = q.poll();
-            vis[t[0]] = true;
             for(int x : ad.get(t[0])) {
-                if(!vis[x]) {
+                if(color[x]==-1) {
                     color[x] = (color[t[0]]+1)%2;
                     q.add(new int[]{x,t[0]});
                 }
@@ -74,10 +72,9 @@ class Solution
         ad = adj;
         color = new int[V];
         Arrays.fill(color,-1);
-        vis = new boolean[V];
         for(int i=0;i<V; i++) {
             if(color[i]==-1) {
-                if(!dfs(i)) return false;
+                if(!bfs(i)) return false;
             }
         }
         return true;
