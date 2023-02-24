@@ -65,16 +65,16 @@ class Solution
         // Write your code here
         int[] dist = new int[V];
         Arrays.fill(dist,(int)1e9);
-        PriorityQueue<int[]> pq = new PriorityQueue<int[]>((int[] a, int[] b)->a[1]-b[1]);
-        pq.add(new int[]{S,0});
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>((Integer a, Integer b)->dist[a]-dist[b]);
+        pq.add(S);
         dist[S] = 0;
         while(!pq.isEmpty()) {
-            int[] t = pq.poll();
-            if(t[1]>dist[t[0]]) continue;
-            for(ArrayList<Integer> x : adj.get(t[0])) {
-                if(x.get(1)+ dist[t[0]] < dist[x.get(0)]) {
-                    dist[x.get(0)] = x.get(1) + t[1];
-                    pq.add(new int[] {x.get(0), dist[x.get(0)]});   
+            int t = pq.poll();
+         //   if(t[1]>dist[t[0]]) continue;
+            for(ArrayList<Integer> x : adj.get(t)) {
+                if(x.get(1)+ dist[t] < dist[x.get(0)]) {
+                    dist[x.get(0)] = x.get(1) + dist[t];
+                    pq.add(x.get(0));   
                 }
             }
         }
