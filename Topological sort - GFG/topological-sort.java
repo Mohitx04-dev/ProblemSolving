@@ -15,7 +15,7 @@ class Main {
             int edg = Integer.parseInt(st[0]);
             int nov = Integer.parseInt(st[1]);
 
-            for (int i = 0; i < nov + 1; i++)
+            for (int i = 0; i < nov; i++)
                 list.add(i, new ArrayList<Integer>());
 
             int p = 0;
@@ -60,29 +60,31 @@ class Main {
 
 class Solution
 {
-    static Stack<Integer> st;
-    static boolean[] vis;
-    static void dfs(int node, ArrayList<ArrayList<Integer>> adj) {
-        vis[node] = true;
-        for(int x : adj.get(node)) {
-            if(!vis[x]) dfs(x,adj);
-        }
-        st.push(node);
-    }
     //Function to return list containing vertices in Topological order. 
     static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
     {
         // add your code here
-        st = new Stack<Integer>();
-        vis = new boolean[V];
+        int[] in = new int[V];
         for(int i=0;i<V;i++) {
-            if(!vis[i]) dfs(i,adj);
+           for(int t : adj.get(i)) in[t]++; 
         }
-        int c = 0;
-        int [] ans = new int[V];
-        while(!st.isEmpty()){
-            ans[c++] = st.pop();
-        } 
+        Queue<Integer> q = new LinkedList<Integer>();
+        for(int i=0; i<V; i++) {
+            if(in[i]==0) q.add(i);
+        }
+        int[] ans = new int[V];
+        int count = 0;
+        int[] vis = new int[V];
+        while(!q.isEmpty()) {
+            int node = q.poll();
+            ans[count++] = node;
+            for(int i : adj.get(node)) {
+                in[i]--;
+                if(in[i]==0){
+                    q.add(i);
+                }
+            }
+        }
         return ans;
     }
 }
