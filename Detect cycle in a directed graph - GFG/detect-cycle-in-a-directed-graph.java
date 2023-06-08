@@ -32,27 +32,32 @@ class DriverClass {
 /*Complete the function below*/
 
 class Solution {
-    boolean detectD(boolean[] vis, int V, ArrayList<ArrayList<Integer>> adj, int node, int parent,boolean[] pVis) {
-        vis[node] = true;
-        pVis[node] = true;
-        for(int x : adj.get(node)) {
-            if(!vis[x]) {
-                if(detectD(vis,V,adj,x,node,pVis)==true) return true;
-            }
-            else if(pVis[x]) {
-                 return true;
-            }
-        }
-        pVis[node] = false;
-        return false;
-    }
     // Function to detect cycle in a directed graph.
     public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
         // code here
-       boolean[] vis = new boolean[V];
-       for(int i=0;i<V; i++) {
-           if(!vis[i]) if(detectD(vis,V, adj,i,-1, new boolean[V])) return true;
-       }
-       return false;
+        int[] in = new int[V];
+        for(int i=0;i<V;i++) {
+           for(int t : adj.get(i)) in[t]++; 
+        }
+        Queue<Integer> q = new LinkedList<Integer>();
+        for(int i=0; i<V; i++) {
+            if(in[i]==0) q.add(i);
+        }
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        int count = 0;
+        int[] vis = new int[V];
+        while(!q.isEmpty()) {
+            int node = q.poll();
+            // if(ans.contains(node)) return true;
+            ans.add(node);
+            for(int i : adj.get(node)) {
+                in[i]--;
+                if(in[i]==0){
+                    q.add(i);
+                }
+            }
+        }
+        for(int i : in) if(i>0) return true;
+        return false;
     }
 }
