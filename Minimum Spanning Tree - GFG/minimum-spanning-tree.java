@@ -32,32 +32,45 @@ public class Main{
 
 
 // User function Template for Java
-
+class UF {
+    int[] parent;
+    int[] size;
+    public UF(int n) {
+        parent = new int[n];
+        size = new int[n];
+        for(int i=0;i<n;i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
+    }
+    int findParent(int i) {
+        if(parent[i]==i) return i;
+        else return findParent(parent[i]);
+    }
+    void union(int i, int j) {
+        i = findParent(i);
+        j = findParent(j);
+        if(i==j) return;
+        if(size[i] >= size[j]) {
+            size[i]++;
+            parent[j] = i;
+        }
+        else {
+            size[j]++;
+            parent[i] = j;
+        }
+    }
+}
 class Solution{
 	static int spanningTree(int V, int E, int edges[][]){
 	    // Code Here. 
-	    int[][] adj = new int[V][V];
-	    for(int i=0;i<V;i++) {
-	        Arrays.fill(adj[i],-1);
-	        adj[i][i] = 0;
-	    }
-	    for(int [] edge : edges) {
-	        adj[edge[0]][edge[1]] = edge[2];
-	        adj[edge[1]][edge[0]] = edge[2];
-	    }
-	    int[] vis = new int[V];
-	    PriorityQueue<int[]> pq = new PriorityQueue<int[]>((a,b)->a[0]-b[0]);
-	    pq.add(new int[]{0,0,-1});
+	    UF uf = new UF(V);
+	    Arrays.sort(edges,(a,b)->a[2]-b[2]);
 	    int ans = 0;
-	    while(!pq.isEmpty()) {
-	        int[] node = pq.poll();
-	        if(vis[node[1]]==1) continue;
-	        vis[node[1]] = 1;
-	        ans+=node[0];
-	        for(int i=0;i<V;i++) {
-	            if(i!=node[1] && adj[node[1]][i]!=-1 && vis[i]==0 && i!=node[2])  {
-	                pq.add(new int[] {adj[node[1]][i],i,node[1]});
-	            }
+	    for(int[] e : edges) {
+	        if(uf.findParent(e[0])!=uf.findParent(e[1])){
+	            uf.union(e[0],e[1]);
+	            ans+=e[2];
 	        }
 	    }
 	    return ans;
