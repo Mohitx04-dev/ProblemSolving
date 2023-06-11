@@ -26,30 +26,32 @@ class GFG {
 }
 // } Driver Code Ends
 
-class DisjointSet {
-    int[] p;
+class UF {
+    int[] parent;
     int[] size;
-    public DisjointSet(int n){
-        p = new int[n];
+    public UF(int n) {
+        parent = new int[n];
         size = new int[n];
-        for(int i=0;i<n;i++) p[i] = i;
-        Arrays.fill(size,1);
+        for(int i=0;i<n;i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
     }
-    public int findParent(int n) {
-        if(p[n]==n) return n;
-        else return p[n] = findParent(p[n]);
+    int findParent(int i) {
+        if(parent[i]==i) return i;
+        else return findParent(parent[i]);
     }
-    public void Union(int i, int j) {
-        int a = findParent(i);
-        int b = findParent(j);
-        if(a==b) return;
-        else if(size[a]>=size[b]) {
-            size[a]+=size[b];
-            p[b] = a;
-        } 
+    void union(int i, int j) {
+        i = findParent(i);
+        j = findParent(j);
+        if(i==j) return;
+        if(size[i] >= size[j]) {
+            size[i]++;
+            parent[j] = i;
+        }
         else {
-            size[b]+=size[a];
-            p[a] = b;
+            size[j]++;
+            parent[i] = j;
         }
     }
 }
@@ -57,25 +59,27 @@ class Solution {
     // Function to find the number of islands.
     public int numIslands(char[][] grid) {
         // Code here
-        int r = grid.length; 
-        int c = grid[0].length;
-        DisjointSet d = new DisjointSet(r*c);
-        for(int i=0;i<r;i++) {
-            for(int j=0; j<c; j++) {
+        int n = grid.length;
+        int m = grid[0].length;
+        UF uf = new UF(n*m);
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<m;j++) {
                 if(grid[i][j]=='1') {
-                    for(int x=i-1; x<=i+1; x++){
+                    for(int x = i-1; x<=i+1; x++) {
                         for(int y=j-1; y<=j+1; y++) {
-                            if(x<0 || y<0 || x>=r || y>=c) continue;
-                            if(grid[x][y]=='1') d.Union((x*c) + y, (i*c) + j);
+                            if(x<0||y<0||x>=n||y>=m||(x==i&&y==j)||grid[x][y]=='0') continue;
+                            uf.union(m*i+j,m*x+y);
                         }
                     }
                 }
-                if(grid[i][j]=='0') d.p[i*c + j] = -1;
+                else uf.parent[m*i + j]  = -1;
             }
         }
         int ans = 0;
-        for(int i=0;i<(r*c); i++) {
-            if(d.p[i]==i) ans++;
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<m;j++) {
+                if(uf.parent[m*i + j]==(m*i + j)) ans++;
+            }
         }
         return ans;
     }
