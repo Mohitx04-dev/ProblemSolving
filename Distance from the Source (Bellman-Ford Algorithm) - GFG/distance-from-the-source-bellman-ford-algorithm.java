@@ -54,16 +54,19 @@ class Solution {
     static int[] bellman_ford(int V, ArrayList<ArrayList<Integer>> edges, int S) {
         // Write your code here
         int[] dist = new int[V];
-        Arrays.fill(dist,(int)1e8);
+        Arrays.fill(dist, (int)1e8);
         dist[S] = 0;
-        for(int i=0;i<=V;i++) {
-            int[] dist2 = dist.clone();
-            for(ArrayList<Integer> e : edges) {
-                if(dist2[e.get(1)] > dist2[e.get(0)] + e.get(2)) dist2[e.get(1)]  = dist2[e.get(0)] + e.get(2);
+        boolean change = false;
+        for(int i=0;i<V;i++) {
+            for(ArrayList<Integer> list : edges) {
+                if(dist[list.get(1)] > dist[list.get(0)] + list.get(2)) 
+                {
+                    if(i==V-1) change = true;
+                    dist[list.get(1)] =  dist[list.get(0)] + list.get(2);
+                }
             }
-            if(Arrays.equals(dist,dist2)) return dist2;
-            else dist = dist2.clone();
         }
-       return new int[]{-1};
+        
+        return change ? new int[]{-1} : dist;
     }
 }
