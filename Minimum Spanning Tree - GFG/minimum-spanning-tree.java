@@ -36,27 +36,30 @@ public class Main{
 class Solution{
 	static int spanningTree(int V, int E, int edges[][]){
 	    // Code Here. 
-	    ArrayList<ArrayList<int[]>> adj = new ArrayList<ArrayList<int[]>>();
-	    for(int i=0;i<V;i++) adj.add(new ArrayList<int[]>());
-	    for(int[] e : edges){ 
-	        adj.get(e[0]).add(new int[]{e[1],e[2]});
-	        adj.get(e[1]).add(new int[]{e[0],e[2]});
+	    int[][] adj = new int[V][V];
+	    for(int i=0;i<V;i++) {
+	        Arrays.fill(adj[i],-1);
+	        adj[i][i] = 0;
 	    }
-	    PriorityQueue<int[]> pq = new PriorityQueue<int[]>((int[]e1, int[]e2)->e1[0]-e2[0]);
+	    for(int [] edge : edges) {
+	        adj[edge[0]][edge[1]] = edge[2];
+	        adj[edge[1]][edge[0]] = edge[2];
+	    }
+	    int[] vis = new int[V];
+	    PriorityQueue<int[]> pq = new PriorityQueue<int[]>((a,b)->a[0]-b[0]);
 	    pq.add(new int[]{0,0,-1});
-	    boolean vis[] = new boolean[V];
 	    int ans = 0;
 	    while(!pq.isEmpty()) {
-	        int[] t = pq.poll();
-	        if(vis[t[1]]) continue;
-	            vis[t[1]] = true;
-	            ans+=t[0];
-	        
-	        for(int[] e : adj.get(t[1])) {
-	            if(!vis[e[0]]) pq.add(new int[]{e[1],e[0],t[1]});
+	        int[] node = pq.poll();
+	        if(vis[node[1]]==1) continue;
+	        vis[node[1]] = 1;
+	        ans+=node[0];
+	        for(int i=0;i<V;i++) {
+	            if(i!=node[1] && adj[node[1]][i]!=-1 && vis[i]==0 && i!=node[2])  {
+	                pq.add(new int[] {adj[node[1]][i],i,node[1]});
+	            }
 	        }
 	    }
 	    return ans;
 	}
-	
 }
