@@ -136,21 +136,12 @@ class Tree
     public static int isSumProperty(Node root)
     {
         // add your code here
-        if(root==null) return 0;
-        if(root.left!=null && root.right!=null) {
-            if(root.data == root.left.data + root.right.data) {
-                return isSumProperty(root.left) & isSumProperty(root.right);
-            }
-            else return 0;
-        }
-        if(root.left!=null) {
-            if(root.data == root.left.data) return isSumProperty(root.left);
-            else return 0;
-        }
-        if(root.right!=null) {
-            if(root.data == root.right.data) return isSumProperty(root.right);
-            else return 0;
-        }
-        return 1;
+        if(root==null) return 1;
+        if(root.left==null && root.right==null) return 1;
+        int s = 0;
+        if(root.left!=null) s+=root.left.data;
+        if(root.right!=null) s+=root.right.data;
+        if(s==root.data) return Math.min(isSumProperty(root.left),isSumProperty(root.right));
+        else return 0;
     }
 }
