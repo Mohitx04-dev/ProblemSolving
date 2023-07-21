@@ -42,15 +42,14 @@ class Solution
         Collections.sort(a);
         int i=0;
         int j=0;
-        int ans = Integer.MAX_VALUE;
-        while(j<n) {
+        int ans = (int)1e9;
+        while(j<a.size()) {
             if(j-i+1 < m) j++;
-            if(j-i+1 == m) {
-                ans = Math.min(a.get(j)-a.get(i), ans);
-                    i++;
-                    j++;
+            else if(j-i+1==m) {
+                ans = Math.min(ans,a.get(j)-a.get(i));
+                j++;
+                i++;
             }
-       
         }
         return ans;
     }
