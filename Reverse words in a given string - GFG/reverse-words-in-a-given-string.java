@@ -26,19 +26,12 @@ class Solution
     String reverseWords(String S)
     {
         // code here 
-        StringBuilder sb = new StringBuilder();
         Stack<String> st = new Stack<String>();
-        int p = 0;
-        for(int i=0;i<S.length();i++){
-            if(S.charAt(i)=='.') {
-                st.push(S.substring(p,i));
-                p=i+1;
-            }
-        }
-        st.push(S.substring(p,S.length()));
+        for(String t : S.split("\\.")) st.push(t);
+        StringBuilder sb = new StringBuilder();
         while(!st.isEmpty()) {
             sb.append(st.pop());
-            if(st.size()>0) sb.append(".");
+            if(st.size()>=1) sb.append(".");
         }
         return new String(sb);
     }
