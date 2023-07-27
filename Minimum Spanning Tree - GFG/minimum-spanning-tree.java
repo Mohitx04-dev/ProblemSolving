@@ -43,36 +43,36 @@ class UF {
             size[i] = 1;
         }
     }
-    int findParent(int i) {
-        if(parent[i]==i) return i;
+    public int findParent(int i){
+        if(parent[i] == i) return i;
         else return findParent(parent[i]);
     }
-    void union(int i, int j) {
+    public void union(int i, int j) {
         i = findParent(i);
         j = findParent(j);
-        if(i==j) return;
-        if(size[i] >= size[j]) {
-            size[i]++;
-            parent[j] = i;
-        }
-        else {
-            size[j]++;
-            parent[i] = j;
+        if(i!=j) {
+            if(size[i]>=size[j]) {
+                size[i]+=size[j];
+                parent[j] = i;
+            }else {
+                size[j]+=size[i];
+                parent[i] = j;
+            }
         }
     }
 }
 class Solution{
 	static int spanningTree(int V, int E, int edges[][]){
 	    // Code Here. 
+	    Arrays.sort(edges,(a,b)->(a[2]-b[2]));
+	    int cost = 0;
 	    UF uf = new UF(V);
-	    Arrays.sort(edges,(a,b)->a[2]-b[2]);
-	    int ans = 0;
 	    for(int[] e : edges) {
-	        if(uf.findParent(e[0])!=uf.findParent(e[1])){
-	            uf.union(e[0],e[1]);
-	            ans+=e[2];
+	        if(uf.findParent(e[0])!=uf.findParent(e[1])) {
+	             uf.union(e[0],e[1]);
+	             cost+=e[2];
 	        }
 	    }
-	    return ans;
+	    return cost;
 	}
 }
