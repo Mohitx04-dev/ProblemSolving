@@ -155,15 +155,15 @@ class Node{
 class Solution {
     public void connect(Node root) {
         // code here
-        ArrayDeque<Node> q = new ArrayDeque<Node>();
-        q.addLast(root);
+        Queue<Node> q = new LinkedList<Node>();
+        q.add(root);
         while(!q.isEmpty()) {
             int s = q.size();
             while(s-->0) {
-                Node n = q.pollFirst();
-                if(s>0) n.nextRight = q.peekFirst();
-                if(n.left!=null) q.addLast(n.left);
-                if(n.right!=null) q.addLast(n.right);
+                Node n = q.poll();
+                if(s>0) n.nextRight = q.peek();
+                if(n.left!=null) q.add(n.left);
+                if(n.right!=null) q.add(n.right);
             }
         }
     }
