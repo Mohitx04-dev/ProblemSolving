@@ -132,36 +132,40 @@ class GfG {
     }
   
 }
-
-
 // } Driver Code Ends
 
 
 //User function Template for Java
 
-/*
-class Node{
-    int data;
-    Node left;
-    Node right;
-    Node nextRight;
-    Node(int data){
-        this.data = data;
-        left=null;
-        right=null;
-        nextRight = null;
+ /*
+    Node class is Defined as follows:
+    class Node{
+        int data;
+        Node left;
+        Node right;
+        Node nextRight;
+        Node(int data){
+            this.data = data;
+            left=null;
+            right=null;
+            nextRight = null;
+        }
     }
-} */
-class Solution {
-    public void connect(Node root) {
-        // code here
+    */
+    
+class Solution
+{
+    //Function to connect nodes at same level.
+    public void connect(Node root)
+    {
+        // Your code goes here.
         Queue<Node> q = new LinkedList<Node>();
         q.add(root);
         while(!q.isEmpty()) {
             int s = q.size();
             while(s-->0) {
                 Node n = q.poll();
-                if(s>0) n.nextRight = q.peek();
+                if(s>=1) n.nextRight = q.peek();
                 if(n.left!=null) q.add(n.left);
                 if(n.right!=null) q.add(n.right);
             }
