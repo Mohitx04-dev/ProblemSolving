@@ -58,16 +58,18 @@ class GFG {
 
 class Solution {
     static int[][] dp;
-    static int fun(int i, int canBuy, int[] arr) {
-        if(i>=arr.length) return 0;
+    static int fun(int i, int canBuy, int[] p){
+        if(i>=p.length) return 0;
         if(dp[i][canBuy]!=-1) return dp[i][canBuy];
-        if(canBuy==1) return dp[i][canBuy] = Math.max(-arr[i] + fun(i+1,0,arr), fun(i+1,1,arr));
-        else return dp[i][canBuy] = Math.max(arr[i] + fun(i+1,1,arr), fun(i+1,0,arr));
+        if(canBuy==1) {
+            return dp[i][canBuy] =  Math.max(-p[i] + fun(i+1,0,p), fun(i+1,1,p));
+        }
+        else return dp[i][canBuy] = Math.max(p[i] + fun(i+1,1,p), fun(i+1,0,p));
     }
     public static int stockBuyAndSell(int n, int[] prices) {
         // code here
-        dp = new int[n+1][2];
-        for(int i=0;i<=n;i++) Arrays.fill(dp[i],-1);
+        dp = new int[n][2];
+        for(int[] m : dp) Arrays.fill(m,-1);
         return fun(0,1,prices);
     }
 }
