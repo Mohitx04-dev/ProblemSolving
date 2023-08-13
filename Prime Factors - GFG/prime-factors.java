@@ -33,13 +33,14 @@ class Solution
     {
         // code here
         ArrayList<Integer> ans = new ArrayList<Integer>();
-        for(int i=2;i<=N;i++) {
+        for(int i=2;i*i<=N;i++) {
             while(N>1 && N%i==0) {
                 if(ans.size()==0) ans.add(i);
                 else if(ans.get(ans.size()-1)!=i) ans.add(i);
                 N = N/i;
             }
         }
+        if(N>1) ans.add(N);
         int[] arr = new int[ans.size()];
         for(int i=0;i<arr.length;i++) arr[i] = ans.get(i);
         return arr;
