@@ -30,32 +30,30 @@ class GFG {
 class Solution {
     public int findSubString( String str) {
         // Your code goes here
-        int[] freq = new int[60];
-        int c = 0;
-        for(int i=0;i<str.length();i++) {
-            if(freq[str.charAt(i)-'A']==0) c++;
-            freq[str.charAt(i)-'A']++;
+        int i = 0;
+        int j = 0;
+        int d = 0;
+        int ref = 0;
+        int[] freq = new int[256];
+        for(char t : str.toCharArray()) {
+            freq[t-'A']++;
+            if(freq[t-'A']==1) ref++;
         }
-        for(int k=c;k<=str.length();k++) {
-            int i = 0;
-            int j = 0;
-            int x = 0;
-            freq = new int[60];
-            while(j<str.length()) {
-               if(freq[str.charAt(j)-'A']==0) x++;
-               if(x==c) {
-                   return k;
-               }
-               freq[str.charAt(j)-'A']++; 
-               if(j-i+1 < k) j++;
-               else if(j-i+1 == k) {
-                   freq[str.charAt(i)-'A']--;
-                   if(freq[str.charAt(i)-'A']==0) x--;
-                   i++;
-                   j++;
-               }
+        freq = new int[256];
+        int min = str.length();
+        while(j < str.length()) {
+            freq[str.charAt(j)-'A']++;
+            if(freq[str.charAt(j)-'A']==1) d++;
+            if(d==ref) {
+                while(d==ref) {
+                    min = Math.min(j-i+1, min);
+                    freq[str.charAt(i)-'A']--;
+                    if(freq[str.charAt(i)-'A']==0) d--;
+                    i++;
+                }
             }
+            j++;
         }
-        return -1;
+        return min;
     }
 }
