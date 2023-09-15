@@ -39,14 +39,14 @@ class Solution{
     long maxSubarraySum(int arr[], int n){
         
         // Your code here
-        long cur = 0;
-        long max = -(int)1e13;
+        long s = 0;
+        long ans = Long.MIN_VALUE; 
         for(int i : arr) {
-            cur+=i;
-            max = Math.max(cur,max);
-            if(cur<0) cur = 0;
+            s+=i;
+            ans = Math.max(s,ans);
+            if(s<0) s = 0;
         }
-        return max;
+        return ans;
     }
     
 }
